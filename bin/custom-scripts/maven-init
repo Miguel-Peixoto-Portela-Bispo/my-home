@@ -1,0 +1,77 @@
+#!/bin/bash
+
+GENERIC_NAME=""
+EXECUTION_OPTIONS=""
+POSSIBLE_OPTIONS="p:yi"
+declare -A MAVEN_OPTIONS=(
+    ["DarchetypeArtifactId"]="maven-archetype-quickstart"
+    ["DarchetypeVersion"]="1.4"
+    ["DgroupId"]=""
+    ["DartifactId"]=""
+    ["DinteractiveMode"]="false"
+)
+
+main()
+{
+    while getopts ${POSSIBLE_OPTIONS} OPT; do
+        case $OPT in
+            "y")
+                getGenericName
+                MAVEN_OPTIONS["DgroupId"]="com.miguel"
+                MAVEN_OPTIONS["DartifactId"]=$GENERIC_NAME
+                ;;
+            "p")
+                GROUP_ID="${2%.*}"
+
+                MAVEN_OPTIONS["DgroupId"]=$GROUP_ID
+                MAVEN_OPTIONS["DartifactId"]="${2#"$GROUP_ID."}"
+                ;;
+            "i")
+                MAVEN_OPTIONS["DinteractiveMode"]="true"
+                execute MAVEN_OPTIONS
+                return 0
+                ;;
+        esac
+
+        execute MAVEN_OPTIONS
+        return 0
+    done
+    echo "Error: A valid option has not been chosen"
+    return 1
+}
+getGenericName()
+{
+    local NAME="project"
+    local NUMBER=1
+    local RESULT="$NAME"
+
+    while [ -d "./$RESULT" ]; do
+        NUMBER=$(($NUMBER+1))
+        RESULT="$NAME$NUMBER"
+    done
+    GENERIC_NAME=$RESULT
+}
+execute()
+{
+    local -n ARGUMENT=$1
+
+    getExecutionOptions ARGUMENT
+    mvn archetype:generate $EXECUTION_OPTIONS
+}
+getExecutionOptions()
+{
+    local -n ARGUMENT_=$1
+
+    local RESULT=""
+
+    for KEY in "${!ARGUMENT_[@]}"; do
+        local VALUE="${ARGUMENT_[$KEY]}"
+
+        if [ "${ARGUMENT_[$KEY]}" != "" ]; then
+            RESULT="$RESULT-$KEY=$VALUE "
+        fi
+    done
+    EXECUTION_OPTIONS=$RESULT
+}
+
+main $*

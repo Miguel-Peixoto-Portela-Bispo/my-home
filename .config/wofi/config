@@ -1,0 +1,6 @@
+allow_images=true
+mode=drun
+image_size=44
+gtk_dark=true
+hide_scroll=true
+key_expand=Shift

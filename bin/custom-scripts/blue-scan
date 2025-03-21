@@ -1,0 +1,9 @@
+#!/usr/bin/expect
+
+set timeout -1
+spawn bluetoothctl
+
+while { true } {
+    send -- "scan on \r"
+    sleep 1
+}

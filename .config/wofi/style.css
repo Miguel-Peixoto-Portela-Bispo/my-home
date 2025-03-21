@@ -1,0 +1,66 @@
+@define-color color-normal rgba(39, 40, 34, 0.7);
+@define-color color-highlight rgba(253, 255, 241, 0.4);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 24px;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+window {
+    background-color: @color-normal;
+}
+#input {
+    transition-duration: 0.4s;
+    color: rgba(253, 255, 241, 1);
+    font-weight: bold;
+    outline: none;
+    padding: 0.5em;
+    border: none;
+    border-bottom: 3px solid rgba(253, 255, 241, 1);
+    appearance: none;
+    border-radius: 0;
+    background-color: rgba(39, 40, 34, 0.4);
+    color: rgba(253, 255, 241, 1);
+    box-shadow: none;
+}
+#scroll {
+    border: none;
+    margin: 0;
+    background-color: transparent;
+}
+#entry {
+    transition-duration: 0.4s;
+    width: 50%;
+    transition-property: background-color;
+    color: rgba(253, 255, 241, 1);
+    margin: 0.25em auto;
+    padding: 0.25em;
+    position: relative;
+    background-color: transparent;
+}
+image {
+    margin: 0.25em;
+}
+
+#entry:selected {
+    border: none;
+    outline: none;
+    background-color: @color-highlight;
+    font-weight: bold;
+    border-left: 3px solid rgba(253, 255, 241, 1);
+}
+#input > image {
+    -gtk-icon-transform:scaleX(0);
+}
+expander > list {
+    border: 3px solid @color-highlight;
+    background-color: rgba(39, 40, 34, 0.4);
+}
+#input:focus {
+    background-color: @color-highlight;
+}

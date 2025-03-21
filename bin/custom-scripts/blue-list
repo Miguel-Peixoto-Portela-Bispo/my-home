@@ -1,0 +1,79 @@
+#!/usr/bin/zsh
+
+TEMPLATE=' - ${ICON} ${ITEM}'
+LIST_NAME='devices'
+OPTSTRING=":vr"
+declare -A ICON_MAP
+declare -A ITEM_SET
+
+respond_option()
+{
+    OPT=$1
+
+    case "$OPT" in
+        "r")
+            TEMPLATE='${ITEM}'
+            LIST_NAME=''
+            ;;
+    esac
+}
+declare_icon()
+{
+    ARRAY=$1
+    ICON=$2
+
+    for ITEM in $ARRAY
+    do
+        ICON_MAP[$ITEM]=$ICON
+    done
+}
+print_item()
+{
+    ITEM=$1
+    SET_ICON=${ICON_MAP[$ITEM]}
+    [ "$SET_ICON" != "" ] && ICON=$SET_ICON || ICON=""
+    ITEM=${ITEM#* * }
+
+    echo ${${TEMPLATE//\${ICON}/$ICON}//\${ITEM}/$ITEM}
+}
+print_start()
+{
+    LIST_NAME=$1
+    if [ "$LIST_NAME" != "" ]
+    then
+        echo "$LIST_NAME:"
+    fi
+}
+print_list()
+{
+    print_body()
+    {
+        LIST=${(@s/\n/)$(bluetoothctl devices)}
+        CONNECTED=${(@s/\n/)$(bluetoothctl devices Connected)}
+        PAIRED=${(@s/\n/)$(bluetoothctl devices Paired)}
+
+        declare_icon $CONNECTED ""
+        declare_icon $PAIRED ""
+        for ITEM in $LIST
+        do
+            if [ "${ITEM_SET[$ITEM]}" = "" ]
+            then
+                ITEM_SET[${ITEM}]=true
+                print_item ${ITEM#* * }
+            fi
+        done
+    }
+
+    print_start $LIST_NAME
+    while true
+    do
+        print_body
+        sleep 0.25
+    done
+}
+
+blue-scan > /dev/null &
+while getopts $OPTSTRING OPT; do
+    respond_option $OPT
+done
+print_list 

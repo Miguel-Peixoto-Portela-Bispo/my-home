@@ -1,0 +1,31 @@
+#!/usr/bin/zsh
+
+NAME="$1"
+
+get_line()
+{
+    if [ "$1" != "" ]
+    then
+        bluetoothctl devices "$1" | grep "$NAME"
+    else
+        bluetoothctl devices | grep "$NAME"
+    fi
+}
+SEGMENTS=(${(@s/ /)$(get_line)})
+ADRESS=${SEGMENTS[1]}
+
+echo $SEGMENTS
+echo $ADRESS
+# if [ $(get_line Connected) != "" ]
+# then
+#     echo "device with name '$NAME' is already connected"
+#     exit
+# fi
+# bluetoothctl power on
+# bluetoothctl pairable on
+# bluetoothctl scan on
+# if [ $(get_line Paired) == "" ]
+# then
+#     bluetoothctl pair $ADRESS
+# fi
+# bluetooth connect $ADRESS

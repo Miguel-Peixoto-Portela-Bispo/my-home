@@ -1,0 +1,164 @@
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $uifont ArimoNerdFontPropo
+set $menu wofi --show | xargs swaymsg exec
+set $swapworkspace exec --no-startup-id ~/.config/sway/swapws.sh
+
+default_border pixel 2
+
+font $uifont 15
+titlebar_border_thickness 0
+titlebar_padding 2
+title_align center
+client.focused #fdfff199 #fdfff199 #272822 #fdfff1 #fdfff1
+client.unfocused #27282299 #27282299 #fdfff1 #27282299 #00000000
+client.focused_inactive #27282299 #27282299 #fdfff1 #27282299 #00000000
+client.urgent #f9267299 #f9267299 #fdfff1 #f9267299 #f9267293
+
+output * {
+    mode 1920x1080
+    # mode --custom 1536x864@59.984Hz
+    # scale 0.8
+    bg ./pokemon-wallpaper2.png fill
+}
+
+input "type:touchpad" {
+    dwt enabled
+        tap enabled
+        natural_scroll enabled
+        middle_emulation enabled
+}
+bindsym $mod+Return exec $term
+
+bindsym $mod+Shift+q kill
+
+bindsym $mod+d exec $menu
+
+floating_modifier $mod normal
+
+bindsym $mod+Shift+c reload
+
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $mod+Ctrl+$left $swapworkspace Left
+bindsym $mod+Ctrl+$right $swapworkspace Right
+bindsym $mod+Ctrl+left $swapworkspace Left
+bindsym $mod+Ctrl+right $swapworkspace Right
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+f fullscreen
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+
+bindsym $mod+Shift+minus move scratchpad
+
+bindsym $mod+minus scratchpad show
+mode "resize" {
+    bindsym $left resize shrink width 10px
+        bindsym $down resize grow height 10px
+        bindsym $up resize shrink height 10px
+        bindsym $right resize grow width 10px
+
+        bindsym Left resize shrink width 10px
+        bindsym Down resize grow height 10px
+        bindsym Up resize shrink height 10px
+        bindsym Right resize grow width 10px
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bar {
+    swaybar_command waybar
+}
+
+input "type:keyboard" {
+    xkb_layout "br"
+        xkb_variant "abnt2"
+}
+
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+bindsym Print exec grimshot savecopy area
+
+bindsym $mod+n exec firefox
+
+
+gaps inner 10px
+
+exec gammastep
+
+exec swaync
+
+bindsym $mod+Shift+n exec swaync-client -t -sw
+
+exec swayidle -w \
+          timeout 120 'swaymsg "output * dpms off"' \
+		resume 'swaymsg "output * dpms on"' \
+
+exec clipse -listen
+
+for_window [class="clipse"] floating enable
+
+bindsym $mod+C exec foot -e sh -c "clipse"
+
+include /etc/sway/config.d/*
