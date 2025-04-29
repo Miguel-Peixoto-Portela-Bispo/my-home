@@ -1,8 +1,8 @@
 {
   "height": 40,
   "spacing": 0,
-  "modules-left": ["hyprland/workspaces" ],
-  "modules-center": ["custom/logo"],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["group/center"],
   "modules-right": [
     "network",
     "clock",
@@ -12,16 +12,51 @@
     "pulseaudio",
     "battery",
   ],
-    "hyprland/workspaces": {
-         "format": "{icon}",
-         "on-scroll-up": "hyprctl dispatch workspace e+1",
-         "on-scroll-down": "hyprctl dispatch workspace e-1"
+  "group/center": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 350,
+      "children-class": "on-center",
+      "transition-left-to-right": true,
     },
-  "custom/logo": {
-    "format": "    ",
-    "tooltip": false,
-    "on-click": "exec wofi --show | xargs swaymsg exec",
+    "modules": [
+      "custom/logo",
+      "custom/apps",
+      "custom/suspend",
+      "custom/reboot",
+      "custom/shutdown",
+    ],
   },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+  },
+  "custom/logo": {
+    "format": "   ",
+    "tooltip": false,
+  },
+  "custom/apps": {
+    "format": "   ",
+    "tooltip": false,
+    "on-click": "wofi --show drun",
+  },
+  "custom/suspend": {
+    "format": "   ",
+    "tooltip": false,
+    "on-click": "susp"
+  },
+  "custom/reboot": {
+    "format": "   ",
+    "tooltip": false,
+    "on-click": "reboot",
+  },
+  "custom/shutdown": {
+    "format": "   ",
+    "tooltip": false,
+    "on-click": "shutdown now",
+  },
+
   "clock": {
     "interval": 1,
     "format": "{:%H:%M:%OS} ",

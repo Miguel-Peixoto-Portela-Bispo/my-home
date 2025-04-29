@@ -1,0 +1,5 @@
+#!/bin/sh
+
+NETWORK=$(nmcli connection show | awk 'NR>1 && NR<3 {print $1}')
+
+nmcli connection down $NETWORK && systemctl suspend
