@@ -18,23 +18,25 @@ return {
 		return loadFile(name)
 	end,
 	targets = {
-		{ name = "lua_ls", toInstall = true},
+		{ name = "ruby_lsp" },
+		{ name = "solargraph" },
+		{ name = "lua_ls", toInstall = true },
 		{ name = "ts_ls", toInstall = true },
 		{ name = "html", toInstall = true },
 		{ name = "cssls", toInstall = true },
 		{ name = "bashls", toInstall = true },
 		{ name = "lemminx", toInstall = true },
 		{ name = "clangd", toInstall = true },
-		{
-			name = "jdtls",
-			toInstall = true,
-			setup = function(configuration)
-				require("jdtls").start_or_attach(configuration)
-				vim.keymap.set("n", "<Leader>r", function()
-					vim.cmd("JdtUpdateConfig")
-				end, { buffer = true })
-			end,
-		},
+		-- {
+		-- 	name = "jdtls",
+		-- 	toInstall = true,
+		-- 	setup = function(configuration)
+		-- 		require("jdtls").start_or_attach(configuration)
+		-- 		vim.keymap.set("n", "<Leader>r", function()
+		-- 			vim.cmd("JdtUpdateConfig")
+		-- 		end, { buffer = true })
+		-- 	end,
+		-- },
 		{
 			name = "metals",
 			setup = function(configuration)

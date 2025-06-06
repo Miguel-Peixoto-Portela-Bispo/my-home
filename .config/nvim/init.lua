@@ -26,7 +26,7 @@ require("lazy").setup({
             },
             config = function()
                 require("mason-null-ls").setup({
-                    ensure_installed = require("data.formatting").targets,
+                    ensure_installed = require("data.formatting").toInstall,
                     automatic_installation = false,
                     handlers = {},
                 })

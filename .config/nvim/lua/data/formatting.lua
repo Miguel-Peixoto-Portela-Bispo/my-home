@@ -1,5 +1,6 @@
 return {
-    TO_INSTALL = {
+    toInstall = {
+        "rubyfmt",
         "stylua",
         "prettierd",
         "beautysh",
